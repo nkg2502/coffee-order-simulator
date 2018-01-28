@@ -1,0 +1,44 @@
+{
+  "name": "coffee-order-simulator",
+  "description": "simulator",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Taesung Jung",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nkg2502/coffee-order-simulator.git"
+  },
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "samples lint",
+    "pretest": "npm run lint",
+    "system-test": "samples test app",
+    "test": "npm run system-test",
+    "e2e-test": "samples test deploy"
+  },
+  "dependencies": {
+    "@google-cloud/datastore": "1.1.0",
+    "body-parser": "^1.18.2",
+    "express": "4.15.4",
+    "nconf": "^0.10.0",
+    "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "1.4.17",
+    "body-parser": "^1.18.2"
+  },
+  "cloud-repo-tools": {
+    "test": {
+      "app": {
+        "msg": "Hello, world!"
+      }
+    },
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+  }
+}

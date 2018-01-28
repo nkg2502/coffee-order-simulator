@@ -1,0 +1,6 @@
+indexes:
+- kind: cafe770
+  properties:
+  - name: state
+  - direction: desc
+    name: order_id

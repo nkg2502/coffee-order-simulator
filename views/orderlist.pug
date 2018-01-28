@@ -1,0 +1,48 @@
+html
+  head
+    meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title SJKPC cafe 770
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous")
+    script(src="https://code.jquery.com/jquery-3.2.1.slim.js" integrity="sha256-tA8y0XqiwnpwmOIl3SGAcFl2RvxHjA8qp0+1uCGmRmg=" crossorigin="anonymous")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
+  body
+    h1(align="center") Cafe 770
+    div.container-fluid
+      div.container-fluid
+        h2 Order Display
+        div.table-responsive
+          table.table.table-striped
+            thead
+              tr
+                th Total
+                th Pending
+                th Making
+                th Cancel
+                th Done
+            tbody
+              tr
+                td= orderInfo.total
+                td= orderInfo.pending
+                td= orderInfo.making
+                td= orderInfo.cancel
+                td= orderInfo.done
+        each d in data
+          div.table-responsive
+            table.table.table-striped
+              thead
+                tr
+                  th= d[0].order_id
+              thead
+                tr
+                  th Hot/Ice
+                  th Coffee
+                  th #?
+                  th State
+              tbody
+                each r in d
+                  tr
+                    td= r.hotice
+                    td= r.coffee
+                    td= r.quantity
+                    td= r.state

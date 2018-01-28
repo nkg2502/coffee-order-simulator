@@ -1,0 +1,4 @@
+{
+	"GCLOUD_PROJECT": "coffee-order-simulator",
+	"DATA_BACKEND": "datastore"
+}
