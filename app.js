@@ -55,17 +55,6 @@ function getTimestamp()
 }
 
 
-function getOrderId()
-{
-  const today = new Date();
-  return today.getFullYear()
-    + getZeroFill(today.getMonth()+1)
-    + getZeroFill(today.getDate()) 
-    + getZeroFill(today.getHours()) 
-    + getZeroFill(today.getMinutes()) 
-    + getZeroFill(today.getSeconds());
-}
-
 app.get('/', (req, res, next) => {
   res.redirect('/dashboard');
 });
@@ -229,26 +218,26 @@ app.get('/orderlist', (req, res, next) => {
   });
 });
 
-
-
 app.post('/order', (req, res, next) => {
   const orderList = JSON.parse(req.body.json);
 
-  console.log(orderList);
-
-  orderList.forEach((order) => {
+  Promise.all(orderList.map((order) => {
     order.state = 'pending';
     order.start_timestamp = getTimestamp();
-    getModel().create(order, (err, savedData) => {
-      console.log('result', savedData);
-      if(err) {
-        next(err);
-        return;
-      }
+    return new Promise((resolve, reject) => {
+      getModel().create(order, (err, savedData) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(savedData);
+        }
+      });
     });
+  })).then((values) => {
+    res.redirect('/dashboard')
+  }).catch((err) => {
+    console.log(err);
   });
-
-  res.redirect('/dashboard')
 });
 
 app.post('/order_update', (req, res, next) => {
