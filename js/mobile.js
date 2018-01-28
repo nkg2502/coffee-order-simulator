@@ -35,11 +35,17 @@ function addCoffee() {
 
   let $div = $('<div></div>').addClass('form-row')
     .append($hotIceComponent)
-    .append($coffeeComponent)
-    .append($optionsComponent)
     .append($quantityComponent);
 
-  $('#order-display').append($('<form></form>').append($div));
+  let $div2 = $('<div></div>').addClass('form-row')
+    .append($coffeeComponent)
+
+  let $div3 = $('<div></div>').addClass('form-row')
+    .append($optionsComponent);
+
+  let $form = $('<form></form>').append($div).append($div2).append($div3);
+
+  $('#order-display').append($form);
 }
 
 function submitOrder()
@@ -52,13 +58,13 @@ function submitOrder()
     $('#order-display').find('select').each((i, elem) => {
       orderObj[elem.name] = $(elem).val();
 
-      if('quantity' === elem.name && orderObj.quantity > 0) {
+      if('options' === elem.name && orderObj.quantity > 0) {
         orderList.push({
           "hotice": orderObj.hotice,
           "coffee": orderObj.coffee,
           "options": orderObj.options,
           "quantity": orderObj.quantity,
-          "mobile": false,
+          "mobile": true,
         });
       }
     });
@@ -68,60 +74,7 @@ function submitOrder()
   });
 }
 
-function addCancel()
-{
-  $('[name="cancel"]').each((i, e) => {
-    const $e = $(e);
-    let obj = JSON.parse($e.text())
-
-    if (obj.state !== 'cancel' && obj.state !== 'done') {
-      $e.click(() => {
-        obj.state = 'cancel';
-
-        $('#state-json').val(JSON.stringify(obj));
-        $('#order-update-form').submit();
-      });
-    } else {
-      $e.hide();
-    }
-
-    $e.text('X');
-  });
-}
-
-function addNext()
-{
-  $('[name="next"]').each((i, e) => {
-    const $e = $(e);
-    let obj = JSON.parse($e.text())
-
-    if (obj.state !== 'cancel' && obj.state !== 'done') {
-      switch(obj.state)
-      {
-        case 'pending':
-          obj.state = 'making';
-          break;
-        case 'making':
-          obj.state = 'done';
-          break;
-      }
-
-      $e.click(() => {
-
-        $('#state-json').val(JSON.stringify(obj));
-        $('#order-update-form').submit();
-      });
-    } else {
-      $e.hide();
-    }
-
-    $e.text(obj.state);
-  });
-}
-
 window.onload = function() {
-  addNext();
-  addCancel();
   submitOrder();
 
   $('#add-coffee').click(addCoffee);

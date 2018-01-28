@@ -113,6 +113,7 @@ app.get('/dashboard', (req, res, next) => {
         state: e.state,
         options: e.options,
         start_timestamp: e.start_timestamp,
+        mobile: e.mobile,
         id: e.id
       }
 
@@ -122,6 +123,7 @@ app.get('/dashboard', (req, res, next) => {
         coffee: e.coffee + ' ' + (e.options.length > 0 ? '(' + e.options.join(', ') + ')' : ''),
         quantity: e.quantity,
         state: e.state,
+        mobile: e.mobile,
         next: JSON.stringify(obj),
         cancel: JSON.stringify(obj)
       };
@@ -259,6 +261,36 @@ app.post('/order_update', (req, res, next) => {
     }
 
     res.redirect('/dashboard')
+  });
+});
+
+app.get('/mobile', (req, res, next) => {
+  res.render('mobile', { });
+});
+
+
+app.post('/order_mobile', (req, res, next) => {
+  const orderList = JSON.parse(req.body.json);
+  console.log(orderList);
+
+  Promise.all(orderList.map((order) => {
+    if(order.coffee.length > 0) {
+      order.state = 'pending';
+      order.start_timestamp = getTimestamp();
+      return new Promise((resolve, reject) => {
+        getModel().create(order, (err, savedData) => {
+          if(err) {
+            reject(err);
+          } else {
+            resolve(savedData);
+          }
+        });
+      });
+    }
+  })).then((values) => {
+    res.render('mobile_result', {data: values });
+  }).catch((err) => {
+    console.log(err);
   });
 });
 
