@@ -31,7 +31,7 @@ const coffeeMenu = [
 
 const keyboardButton = {
 	"type": "buttons",
-	"buttons": coffeeMenu
+	"buttons": ['Order']
 };
 
 function getZeroFill(n)
@@ -301,7 +301,7 @@ app.get('/keyboard', function(req, res, next) {
 
 app.post('/message', function(req, res, next) {
   var msg = {
-	  "text": 'okok: ' + req.body['content']
+	  "text": 'https://coffee-order-simulator.appspot.com/mobile'
   }
 
   res.json({"message": msg, "keyboard": keyboardButton});
