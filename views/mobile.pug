@@ -13,6 +13,12 @@ html
       div#order-display
       div.row
         div.col
+          div.input-group.mb-3
+            div.input-group-prepend
+              span.input-group-text Name
+            input(type='text').form-control#order-name
+      div.row
+        div.col
           button(type="button").btn.btn-outline-dark#add-coffee + Add Coffee
         div.col
           button(type="button").btn.btn-warning#submit-order Submit Order!

@@ -59,6 +59,7 @@ function submitOrder()
           "options": orderObj.options,
           "quantity": orderObj.quantity,
           "mobile": false,
+          "name": '',
         });
       }
     });

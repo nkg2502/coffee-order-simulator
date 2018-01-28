@@ -34,6 +34,11 @@ html
                 tr
                   th Order #
                   th= d[0].order_id
+                  if d[0].mobile
+                    th
+                      button.btn.btn-sm.btn-info Mobile
+                  if d[0].name
+                    th= d[0].name
               thead
                 tr
                   th Hot/Ice

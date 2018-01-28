@@ -114,6 +114,7 @@ app.get('/dashboard', (req, res, next) => {
         options: e.options,
         start_timestamp: e.start_timestamp,
         mobile: e.mobile,
+        name: e.name,
         id: e.id
       }
 
@@ -124,6 +125,7 @@ app.get('/dashboard', (req, res, next) => {
         quantity: e.quantity,
         state: e.state,
         mobile: e.mobile,
+        name: e.name,
         next: JSON.stringify(obj),
         cancel: JSON.stringify(obj)
       };
@@ -185,22 +187,14 @@ app.get('/orderlist', (req, res, next) => {
     // making => done
 
     const data = entities.reverse().map((e) => {
-      const obj = {
-        order_id: e.order_id,
-        hotice: e.hotice,
-        coffee: e.coffee,
-        quantity: e.quantity,
-        state: e.state,
-        options: e.options,
-        id: e.id
-      }
-
       return {
         order_id: e.order_id,
         hotice: e.hotice,
         coffee: e.coffee + ' ' + (e.options.length > 0 ? '(' + e.options.join(', ') + ')' : ''),
         quantity: e.quantity,
-        state: e.state
+        state: e.state,
+        mobile: e.mobile,
+        name: e.name,
       };
     });
 

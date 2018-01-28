@@ -52,6 +52,11 @@ function submitOrder()
 {
   $('#submit-order').click(() => {
 
+    if(0 >= $('#order-name').val().length) {
+      alert('What is your name?');
+      return;
+    }
+
     let orderList = [];
     let orderObj = {};
 
@@ -65,6 +70,7 @@ function submitOrder()
           "options": orderObj.options,
           "quantity": orderObj.quantity,
           "mobile": true,
+          "name": $('#order-name').val(),
         });
       }
     });
