@@ -43,6 +43,18 @@ function getZeroFill(n)
   return '' + n;
 }
 
+function getTimestamp()
+{
+  const today = new Date();
+  return today.getFullYear()
+    + getZeroFill(today.getMonth()+1)
+    + getZeroFill(today.getDate()) 
+    + getZeroFill(today.getHours()) 
+    + getZeroFill(today.getMinutes()) 
+    + getZeroFill(today.getSeconds());
+}
+
+
 function getOrderId()
 {
   const today = new Date();
@@ -111,11 +123,12 @@ app.get('/dashboard', (req, res, next) => {
         quantity: e.quantity,
         state: e.state,
         options: e.options,
+        start_timestamp: e.start_timestamp,
         id: e.id
       }
 
       return {
-        order_id: e.order_id.substr(9, 4),
+        order_id: e.order_id,
         hotice: e.hotice,
         coffee: e.coffee + ' ' + (e.options.length > 0 ? '(' + e.options.join(', ') + ')' : ''),
         quantity: e.quantity,
@@ -192,7 +205,7 @@ app.get('/orderlist', (req, res, next) => {
       }
 
       return {
-        order_id: e.order_id.substr(9, 4),
+        order_id: e.order_id,
         hotice: e.hotice,
         coffee: e.coffee + ' ' + (e.options.length > 0 ? '(' + e.options.join(', ') + ')' : ''),
         quantity: e.quantity,
@@ -224,10 +237,10 @@ app.post('/order', (req, res, next) => {
   console.log(orderList);
 
   orderList.forEach((order) => {
-    order.order_id = getOrderId();
     order.state = 'pending';
+    order.start_timestamp = getTimestamp();
     getModel().create(order, (err, savedData) => {
-      console.log(savedData);
+      console.log('result', savedData);
       if(err) {
         next(err);
         return;
@@ -243,6 +256,12 @@ app.post('/order_update', (req, res, next) => {
 
   const id = order.id;
   delete order.id;
+
+  switch(order.state) {
+    case 'cancel':
+    case 'done':
+      order.end_timestamp = getTimestamp();
+  }
 
   getModel().update(id, order, (err, savedData) => {
     if(err) {

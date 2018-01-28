@@ -103,7 +103,7 @@ function update (id, data, cb) {
 
   const entity = {
     key: key,
-    data: toDatastore(data, ['hotice', 'coffee', 'options', 'quantity'])
+    data: toDatastore(data, ['hotice', 'coffee', 'options', 'quantity', 'start_timestamp', 'end_timestamp'])
   };
 
   ds.save(
@@ -117,7 +117,16 @@ function update (id, data, cb) {
 // [END update]
 
 function create (data, cb) {
-  update(null, data, cb);
+  ds.runQuery(ds.createQuery([kind]))
+    .then(entities => {
+      data.order_id = Math.max.apply(null, entities[0].map(e => e.order_id)) + 1;
+      if(0 >= data.order_id)
+        data.order_id = 1;
+      update(null, data, cb);
+    })
+    .catch(err => {
+      cb(err);
+    });
 }
 
 function read (id, cb) {
