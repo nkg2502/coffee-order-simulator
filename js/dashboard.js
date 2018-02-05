@@ -13,7 +13,7 @@ function addCoffee() {
 
   let $hotIceComponent = $('<div></div>').addClass('col col-sm-2').append($('<div></div>').attr('class', 'form-group').append($hotIce));
 
-  let $coffee= $('<select><option>Americano</option><option>Caramel Macchiato</option><option>Latte</option><option>Chocolate(S)</option><option>Chocolate</option><option>Vanilla Latte</option><option>Cappuccino</option><option>Mocha</option><option>Sweet Sweet</option></select>').addClass('form-control').attr('name', 'coffee');
+  let $coffee= $('<select><option>Americano</option><option>Caramel Macchiato</option><option>Latte</option><option>Chocolate(S)</option><option>Chocolate</option><option>Vanilla Latte</option><option>Hazelnut Latte</option><option>Cappuccino</option><option>Mocha</option><option>Espresso</option><option>Sweet Sweet</option></select>').addClass('form-control').attr('name', 'coffee');
   let $coffeeComponent = $('<div></div>').addClass('col col-sm-auto').append($('<div></div>').attr('class', 'form-group').append($coffee));
 
   let $options = $('<select multiple="multiple"><option>Add shot</option><option>Less shot</option><option>More syrup</option><option>Less syrup</option></select>').addClass('form-control').attr('name', 'options');

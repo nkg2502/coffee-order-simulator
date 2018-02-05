@@ -22,10 +22,12 @@ const coffeeMenu = [
   'Caramel Macchiato',
   'Latte',
   'Vanilla Latte',
+  'Hazelnut Latte',
   'Chocolate',
   'Chocolate(S)',
   'Cappuccino',
   'Mocha',
+  'Espresso',
   'Sweet Sweet'
 ]
 
