@@ -288,6 +288,46 @@ app.post('/order_mobile', (req, res, next) => {
   });
 });
 
+app.get('/stat', function(req, res, next) {
+  getModel().list((err, result) => {
+    let coffee = {};
+    let coffee_ratio = {};
+    coffeeMenu.forEach((e) => {
+      coffee[e] = 0;
+      coffee_ratio[e] = 0;
+    });
+    let hot = 0;
+    let ice = 0;
+
+    result.filter((e) => e.state !== 'cancel').forEach((e) => {
+      const size = parseInt(e.quantity, 10);
+      if(e.hotice === 'Hot')
+        hot += size;
+      else
+        ice += size;
+      coffee[e.coffee] += size;
+    });
+
+    const total = hot + ice;
+
+    coffeeMenu.forEach((e) => {
+      coffee_ratio[e] = (1.0 * coffee[e]) / total;
+    });
+
+    res.json([
+      {
+        hot: hot,
+        ice: ice,
+        coffee: coffee,
+      },
+      {
+        hot: hot / total,
+        ice: ice / total,
+        coffee: coffee_ratio,
+      }]);
+  });
+});
+
 // for plus friends
 app.get('/keyboard', function(req, res, next) {
   res.json(keyboardButton);
