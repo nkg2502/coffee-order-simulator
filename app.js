@@ -290,6 +290,12 @@ app.post('/order_mobile', (req, res, next) => {
   });
 });
 
+app.get('/statall', function(req, res, next) {
+  getModel().list((err, result) => {
+    res.json(result);
+  });
+});
+
 app.get('/stat', function(req, res, next) {
   getModel().list((err, result) => {
     let coffee = {};
