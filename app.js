@@ -290,8 +290,8 @@ app.post('/order_mobile', (req, res, next) => {
   });
 });
 
-app.get('/statall', function(req, res, next) {
-  getModel().list((err, result) => {
+app.get('/statall/:kind', function(req, res, next) {
+  getModel().listall(req.params['kind'], (err, result) => {
     res.json(result);
   });
 });

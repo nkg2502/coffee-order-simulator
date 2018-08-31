@@ -7,7 +7,7 @@ const config = require('./config');
 const ds = Datastore({
   projectId: config.get('GCLOUD_PROJECT')
 });
-const kind = 'cafe770';
+var kind = 'cafe770_' + (new Date()).getFullYear() + ('0' + ((new Date()).getMonth()+1)).slice(-2) + ('0' + (new Date()).getDate()).slice(-2);
 // [END config]
 
 // Translates from Datastore's entity format to
@@ -89,6 +89,20 @@ function list (cb) {
 }
 // [END list]
 
+function listall (k, cb) {
+  const q = ds.createQuery([k])
+    .order('order_id', { desending: true });
+
+  ds.runQuery(q, (err, entities, nextQuery) => {
+    if (err) {
+      cb(err);
+      return;
+    }
+    cb(null, entities.map(fromDatastore));
+  });
+}
+
+
 // Creates a new book or updates an existing book with new data. The provided
 // data is automatically translated into Datastore format. The book will be
 // queued for background processing.
@@ -151,6 +165,7 @@ module.exports = {
   create,
   read,
   update,
-  list
+  list,
+  listall
 };
 // [END exports]
